@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
   end
 
-  def render_with_protection(json_content, parameters = {})
-    render parameters.merge(content_type: 'application/json', text: ")]}',\n" + json_content)
+  def render_with_protection(object, parameters = {})
+    render parameters.merge(content_type: 'application/json', text: ")]}',\n" + object.to_json)
   end
   
 protected
