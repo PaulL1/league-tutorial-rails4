@@ -1,0 +1,23 @@
+<div class="body">
+  <div class="form-horizontal">
+
+    <div class="control-group">
+      <label class="control-label">Club name:</label>
+      <div class="controls">
+        <input type="text" autofocus ng-model="club.name" />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Contact officer:</label>
+      <div class="controls">
+        <input type="text" ng-model="club.contact_officer" />
+      </div>
+    </div>
+
+    <div class="controls">
+      <button ng-click="submit()" class="btn btn-primary" >Save</button>
+      <button ng-click="cancel()" class="btn btn-primary" >Cancel</button>
+    </div>
+  </div>
+</div>

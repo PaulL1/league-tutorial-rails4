@@ -8,6 +8,6 @@ module.exports = Page.create({
   title: { get: function() { return this.findElement(this.by.id('title')); } },
   description: { get: function() { return this.findElement(this.by.id('description')); } },
   clubTableElement: { value: function(rowNum, columnBinding) { 
-    return this.findElement(this.by.repeater('club in clubs').row(rowNum).column(columnBinding)); } }
+    return this.findElement(this.by.repeater('row in renderedRows').row(rowNum).column(columnBinding)); } }
   }
 );
