@@ -1,8 +1,9 @@
-angular.module( 'ngBoilerplate', [
+angular.module( 'league', [
   'templates-app',
   'templates-common',
-  'ngBoilerplate.home',
-  'ngBoilerplate.about',
+  'league.home',
+  'league.about',
+  'league.club',
   'ui.state',
   'ui.route'
 ])

@@ -1,16 +1,16 @@
 {
-  "author": "Josh David Miller",
-  "name": "ng-boilerplate",
-  "version": "0.3.1",
-  "homepage": "http://bit.ly/ng-boilerplate",
+  "author": "PaulL",
+  "name": "league-tutorial-rails4",
+  "version": "0.0.1",
+  "homepage": "http://technpol.wordpress.com",
   "licenses": {
     "type": "MIT",
-    "url": "https://raw.github.com/joshdmiller/ng-boilerplate/master/LICENSE"
+    "url": "https://github.com/PaulL1/league-tutorial-rails4/blob/master/LICENSE"
   },
-  "bugs": "https://github.com/joshdmiller/ng-boilerplate/issues",
+  "bugs": "https://github.com/PaulL1/league-tutorial-rails4/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:joshdmiller/ng-boilerplate.git"
+    "url": "git@github.com:PaulL1/league-tutorial-rails4.git"
   },
   "dependencies": {},
   "devDependencies": {
