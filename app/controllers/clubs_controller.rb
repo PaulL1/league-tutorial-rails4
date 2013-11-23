@@ -8,13 +8,13 @@ class ClubsController < ApplicationController
   # GET /clubs.json
   def index
     @clubs = Club.all
-    render json: @clubs
+    render_with_protection @clubs
   end
 
   # GET /clubs/1
   # GET /clubs/1.json
   def show
-    render json: @club
+    render_with_protection @club
   end
 
   # POST /clubs
@@ -23,9 +23,9 @@ class ClubsController < ApplicationController
     @club = Club.new(club_params)
 
     if @club.save
-      render json: @club, status: :created
+      render_with_protection @club, { status: :created }
     else
-      render json: @club.errors, status: :unprocessable_entity
+      render_with_protection @club.errors, { status: :unprocessable_entity }
     end
   end
 
@@ -33,9 +33,9 @@ class ClubsController < ApplicationController
   # PATCH/PUT /clubs/1.json
   def update
     if @club.update(club_params)
-      head :no_content
+      render_with_protection @club
     else
-      render json: @club.errors, status: :unprocessable_entity
+      render_with_protection @club.errors, { status: :unprocessable_entity }
     end
   end
 
