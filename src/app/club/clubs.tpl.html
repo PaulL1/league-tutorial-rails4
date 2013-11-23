@@ -4,14 +4,14 @@
 </div>
 
 <div>
-  <table>
+ <table>
     <thead>
       <td>Name</td>
       <td>Contact Officer</td>
     </thead>
-    <tr>
-      <td>sample club</td>
-      <td>sample officer</td>
+    <tr ng-repeat="club in clubs">
+      <td>{{club.name}}</td>
+      <td>{{club.contact_officer}}</td>
     </tr>
   </table>
 </div>
