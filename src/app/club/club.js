@@ -56,8 +56,11 @@ angular.module( 'league.club', [
   };
 
   $scope.deleteClub = function(club) {
-    club.$remove();
-    $scope.clubs = ClubRes.query();
+    club.$remove(function(response) {
+      $scope.clubs = ClubRes.query();
+    }, function(error) {
+      $scope.error = error.data;
+    });
   };
 
   $scope.newClub = function() {
@@ -79,11 +82,15 @@ angular.module( 'league.club', [
     if ($scope.clubId) {
       $scope.club.$update(function(response) {
         $state.transitionTo('clubs');
+      }, function(error) {
+        $scope.error = error.data;
       });
     }
     else {
       $scope.club.$save(function(response) {
         $state.transitionTo('clubs');
+      }, function(error) {
+        $scope.error = error.data;
       });
     }
   };

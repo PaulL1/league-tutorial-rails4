@@ -1,11 +1,11 @@
 <div class="body">
   <div class="form-horizontal">
-
-    <div class="control-group">
+    <div class="control-group" ng-class="error.name ? 'error' : ''">
       <label class="control-label">Club name:</label>
       <div class="controls">
         <input type="text" autofocus ng-model="club.name" />
       </div>
+      <div field_error errors="error" field="name"></div>
     </div>
 
     <div class="control-group">
@@ -13,6 +13,7 @@
       <div class="controls">
         <input type="text" ng-model="club.contact_officer" />
       </div>
+      <div field_error errors="error" field="contact_officer"></div>
     </div>
 
     <div class="controls">

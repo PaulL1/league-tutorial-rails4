@@ -57,7 +57,7 @@ describe( 'Club functionality', function() {
         expect(scope.$state.transitionTo).toHaveBeenCalledWith('club', { clubId: 1});
       });
 
-      it('Calls delete on first row', function() {
+      it('Calls delete on first row, success', function() {
         scope.httpBackend.expect('DELETE', '../clubs/1.json').respond();
         scope.httpBackend.expect('GET', '../clubs.json').respond([
           {"contact_officer":"Contact Officer 1","created_at":"2012-02-02T00:00:00Z","date_created":"2012-01-01T00:00:00Z","id":1,"name":"Club 1","updated_at":"2012-03-03T00:00:00Z"},
@@ -69,6 +69,17 @@ describe( 'Club functionality', function() {
 
         scope.$digest();
         scope.httpBackend.flush();
+      });
+
+      it('Calls delete on first row, success', function() {
+        scope.httpBackend.expect('DELETE', '../clubs/1.json').respond(409, { error: "You can't do that"});
+
+        // call edit
+        scope.deleteClub(scope.clubs[0]);
+
+        scope.$digest();
+        scope.httpBackend.flush();
+        expect(scope.error).toEqual({ error: "You can't do that" });
       });
 
       it('Calls new', function() {
@@ -137,6 +148,19 @@ describe( 'Club functionality', function() {
         scope.httpBackend.flush();
         expect(scope.$state.transitionTo).toHaveBeenCalledWith('clubs');
       });
+
+      it('Submit with clubId calls put on server, put fails', function(){
+        spyOn(scope.$state, "transitionTo").andCallThrough();
+
+        scope.club.name = 'Changed name';     
+        scope.submit();
+        
+        scope.httpBackend.expectPUT('../clubs/2.json').respond(422, {"name":["can't be blank"]});
+        scope.$digest();
+        scope.httpBackend.flush();
+        expect(scope.$state.transitionTo).not.toHaveBeenCalledWith('clubs');
+        expect(scope.error).toEqual( { name: [ "can't be blank" ] });
+      });      
     });
 
     describe( 'Club detail controller save method tests', function() {
@@ -156,6 +180,19 @@ describe( 'Club functionality', function() {
         scope.httpBackend.flush();
         expect(scope.$state.transitionTo).toHaveBeenCalledWith('clubs');
       });
+
+      it('Submit with clubId calls post on server, post fails', function(){
+        spyOn(scope.$state, "transitionTo").andCallThrough();
+
+        scope.club.name = 'Changed name';     
+        scope.submit();
+        
+        scope.httpBackend.expectPOST('../clubs.json').respond(422, {"name":["can't be blank"]});
+        scope.$digest();
+        scope.httpBackend.flush();
+        expect(scope.$state.transitionTo).not.toHaveBeenCalledWith('clubs');
+        expect(scope.error).toEqual( { name: [ "can't be blank" ] });
+      });      
     });
   });
 });

@@ -3,6 +3,10 @@
   <p id="description">Soon this will show a list of all the clubs, based on information from the server</p>
 </div>
 
+<div ng-show="error">
+  <p>Error: {{error.data}}</p>
+</div>
+
 <div>
   <div class="gridStyle" ng-grid="gridOptions"></div>
   <button ng-click="newClub()" class="btn btn-primary" >New</button>  
