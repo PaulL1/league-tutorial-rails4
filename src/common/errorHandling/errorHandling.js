@@ -15,4 +15,3 @@ angular.module( 'common.errorHandling', [])
   };  
 })
 ;
-

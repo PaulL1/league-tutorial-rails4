@@ -8,7 +8,7 @@
       <div field_error errors="error" field="name"></div>
     </div>
 
-    <div class="control-group">
+    <div class="control-group" ng-class="error.contact_officer ? 'error' : ''">
       <label class="control-label">Contact officer:</label>
       <div class="controls">
         <input type="text" ng-model="club.contact_officer" />
