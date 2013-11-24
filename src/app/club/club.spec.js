@@ -57,6 +57,20 @@ describe( 'Club functionality', function() {
         expect(scope.$state.transitionTo).toHaveBeenCalledWith('club', { clubId: 1});
       });
 
+      it('Calls delete on first row', function() {
+        scope.httpBackend.expect('DELETE', '../clubs/1.json').respond();
+        scope.httpBackend.expect('GET', '../clubs.json').respond([
+          {"contact_officer":"Contact Officer 1","created_at":"2012-02-02T00:00:00Z","date_created":"2012-01-01T00:00:00Z","id":1,"name":"Club 1","updated_at":"2012-03-03T00:00:00Z"},
+          {"contact_officer":"Contact Officer 2","created_at":"2012-02-02T00:00:00Z","date_created":"2012-01-01T00:00:00Z","id":2,"name":"Club 2","updated_at":"2012-03-03T00:00:00Z"}
+        ]);
+
+        // call edit
+        scope.deleteClub(scope.clubs[0]);
+
+        scope.$digest();
+        scope.httpBackend.flush();
+      });
+
       it('Calls new', function() {
         // we expect it to call $state
         spyOn(scope.$state, "transitionTo").andCallThrough();
