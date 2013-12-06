@@ -5,6 +5,7 @@ angular.module( 'league', [
   'league.home',
   'league.about',
   'league.club',
+  'league.team',
   'ui.state',
   'ui.route'
 ])

@@ -1,0 +1,13 @@
+<div>
+  <h1 id="title">Team functions</h1>
+  <p id="description">Soon this will show a list of all the teams, based on information from the server</p>
+</div>
+
+<div ng-show="error">
+  <p>Error: {{error.data}}</p>
+</div>
+
+<div>
+  <div class="gridStyle" ng-grid="gridOptions"></div>
+  <button ng-click="newTeam()" class="btn btn-primary" >New</button>  
+</div>
