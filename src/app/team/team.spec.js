@@ -111,6 +111,7 @@ describe( 'Team functionality', function() {
         expect(scope.teamId).toEqual(2);
   
         scope.httpBackend.expectGET('../teams/2.json').respond({"captain":"Captain 2","created_at":"2012-02-02T00:00:00Z","date_created":"2012-01-01T00:00:00Z","id":2,"name":"Team 2","updated_at":"2012-03-03T00:00:00Z"});
+        scope.httpBackend.expect('GET', '../clubs.json').respond([]);
 
         scope.$digest();  
         scope.httpBackend.flush();
@@ -122,6 +123,10 @@ describe( 'Team functionality', function() {
         scope.fakeStateParams.teamId = null;
         
         $controller('TeamCtrl', { $scope: scope, $stateParams: scope.fakeStateParams });
+        scope.httpBackend.expect('GET', '../clubs.json').respond([]);
+
+        scope.$digest();  
+        scope.httpBackend.flush();
         expect(scope.teamId).toBeNaN();
       }));             
     });
@@ -132,6 +137,7 @@ describe( 'Team functionality', function() {
 
         // The initial render triggers a get, drain that before we start the test proper
         scope.httpBackend.expectGET('../teams/2.json').respond({"captain":"Captain 2","created_at":"2012-02-02T00:00:00Z","date_created":"2012-01-01T00:00:00Z","id":2,"name":"Team 2","updated_at":"2012-03-03T00:00:00Z"});
+        scope.httpBackend.expect('GET', '../clubs.json').respond([]);
 
         scope.$digest();
         scope.httpBackend.flush();
@@ -167,6 +173,10 @@ describe( 'Team functionality', function() {
       beforeEach(angular.mock.inject(function($controller){
         scope.fakeStateParams.teamId = null;
         $controller('TeamCtrl', {$scope: scope, $stateParams: scope.fakeStateParams});
+        scope.httpBackend.expect('GET', '../clubs.json').respond([]);
+
+        scope.$digest();
+        scope.httpBackend.flush();
        }));
       
       it('Submit with teamId calls post on server, post succeeds', function(){

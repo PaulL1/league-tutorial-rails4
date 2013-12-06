@@ -3,6 +3,7 @@
  */
 angular.module( 'league.team', [
   'ui.state',
+  'league.club',
   'ngResource',
   'ngGrid'
 ])
@@ -12,7 +13,7 @@ angular.module( 'league.team', [
  */
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'teams', {
-    url: '/teams',
+    url: '/teams?clubId',
     views: {
       "main": {
         controller: 'TeamsCtrl',
@@ -37,18 +38,37 @@ angular.module( 'league.team', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'TeamsCtrl', function TeamsController( $scope, TeamRes, $state ) {
+.controller( 'TeamsCtrl', function TeamsController( $scope, TeamRes, $state, $stateParams ) {
   $scope.teams = TeamRes.query();
+
+  $scope.clubId = $stateParams.clubId;
+
+  if($scope.clubId) {
+    $scope.filterOptions = {
+      filterText: 'club_id:' + $scope.clubId
+    };
+  }
+  else {
+    $scope.filterOptions = {
+      filterText: ''
+    };
+  }
+
   $scope.gridOptions = {
     data: 'teams',
     columnDefs: [
       {field: 'id', displayName: 'Id'},
+      {field: 'club_id', displayName: 'Club Id', visible: false},
+      {field: 'club_name', displayName: 'Club Name'},
       {field: 'name', displayName: 'Team Name'},
       {field: 'captain', displayName: 'Captain'},
+      {field: 'date_created', displayName: 'Date Created', cellFilter: "date:mediumDate"},
       {displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="editTeam(row.entity)" >Edit</button> '},
       {displayName: 'Delete', cellTemplate: '<button id="deleteBtn" type="button" class="btn-small" ng-click="deleteTeam(row.entity)" >Delete</button> '}
     ],
-    multiSelect: false
+    multiSelect: false,
+    filterOptions: $scope.filterOptions,
+    showColumnMenu: true    
   };
 
   $scope.editTeam = function(team) {
@@ -69,7 +89,7 @@ angular.module( 'league.team', [
 
 })
 
-.controller('TeamCtrl', function TeamController( $scope, TeamRes, $state, $stateParams ) {
+.controller('TeamCtrl', function TeamController( $scope, TeamRes, ClubRes, $state, $stateParams ) {
   $scope.teamId = parseInt($stateParams.teamId, 10);
 
   if ($scope.teamId) {
@@ -77,7 +97,8 @@ angular.module( 'league.team', [
   } else {
     $scope.team = new TeamRes();
   }  
-
+  $scope.clubs = ClubRes.query();
+  
   $scope.submit = function() {
     if ($scope.teamId) {
       $scope.team.$update(function(response) {

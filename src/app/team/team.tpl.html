@@ -1,5 +1,13 @@
 <div class="body">
   <div class="form-horizontal">
+    <div class="control-group" ng-class="error.club ? 'error' : ''">
+      <label class="control-label">Club:</label>
+      <div class="controls">
+        <select ng-model="team.club_id" ng-options="club.id as club.name for club in clubs"></select>
+      </div>
+      <div field_error errors="error" field="club"></div>
+    </div>
+
     <div class="control-group" ng-class="error.name ? 'error' : ''">
       <label class="control-label">Team name:</label>
       <div class="controls">
