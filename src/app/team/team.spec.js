@@ -90,7 +90,7 @@ describe( 'Team functionality', function() {
         scope.newTeam();
 
         // we expect the team state to be called, passing in the id of the first item
-        expect(scope.$state.transitionTo).toHaveBeenCalledWith('team');
+        expect(scope.$state.transitionTo).toHaveBeenCalledWith('team', {clubId: undefined});
       });
     });
   });

@@ -23,7 +23,7 @@ angular.module( 'league.team', [
     data:{ pageTitle: 'Teams' }
   })
   .state( 'team', {
-    url: '/team?teamId',
+    url: '/team?teamId&clubId',
     views: {
       "main": {
         controller: 'TeamCtrl',
@@ -84,19 +84,24 @@ angular.module( 'league.team', [
   };
 
   $scope.newTeam = function() {
-    $state.transitionTo('team');
+    $state.transitionTo('team', {clubId: $scope.clubId});
   };
 
 })
 
 .controller('TeamCtrl', function TeamController( $scope, TeamRes, ClubRes, $state, $stateParams ) {
   $scope.teamId = parseInt($stateParams.teamId, 10);
+  $scope.clubId = parseInt($stateParams.clubId, 10);
 
   if ($scope.teamId) {
     $scope.team = TeamRes.get({id: $scope.teamId});
   } else {
     $scope.team = new TeamRes();
+    if($scope.clubId) {
+      $scope.team.club_id = $scope.clubId;
+    }
   }  
+  
   $scope.clubs = ClubRes.query();
   
   $scope.submit = function() {
