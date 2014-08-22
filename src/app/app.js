@@ -3,6 +3,7 @@ angular.module( 'league', [
   'templates-common',
   'common.errorHandling',
   'common.errorService',
+  'common.authentication',
   'league.home',
   'league.about',
   'league.club',
