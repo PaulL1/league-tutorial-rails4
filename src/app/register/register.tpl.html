@@ -1,0 +1,37 @@
+<div>
+  <h1>Register</h1>
+</div>
+
+<div ng-show="errors.message" class="error">
+  <p>{{errors.message}}</p>
+</div>
+<div class="body">
+  <div ng-show="!register_user.reset_password_token" ng-class="{error: errors.errors.email}">Email: <input type="email" ng-model="register_user.email" />
+    <div ng-show="errors.errors.email">
+      <div ng-repeat="field_error in errors.errors.email">{{field_error}}</div>
+    </div>
+  </div>
+
+  <div ng-class="{error: errors.errors.password}">Password: <input type="password" ng-model="register_user.password" />
+    <div ng-show="errors.errors.password">
+      <div ng-repeat="field_error in errors.errors.password">{{field_error}}</div>
+    </div>
+  </div>
+
+  <div ng-class="{error: errors.errors.password}">Password confirmation: <input type="password" ng-model="register_user.password_confirmation" />
+    <div ng-show="errors.errors.password_confirmation">
+      <div ng-repeat="field_error in errors.errors.password_confirmation">{{field_error}}</div>
+    </div>
+  </div>
+
+  <div ng-if="!register_user.reset_password_token" ng-class="{error: errors.errors.password}">Current password: <input type="password" ng-model="register_user.current_password" />
+    <div ng-show="errors.errors.current_password">
+      <div ng-repeat="field_error in errors.errors.current_password">{{field_error}}</div>
+    </div>
+  </div>
+
+
+  <button ng-if="!register_user.reset_password_token" ng-click="register()" class="btn btn-primary" >Register</button>
+  <button ng-if="!register_user.reset_password_token" ng-click="change_password()" class="btn btn-primary" >Change Password</button>
+  <button ng-if="register_user.reset_password_token" ng-click="reset_password()" class="btn btn-primary" >Change Password</button>
+</div>

@@ -1,0 +1,26 @@
+<div>
+  <h1>Login</h1>
+</div>
+
+<div ng-show="errors.message" class="error">
+  <p>{{errors.message}}</p>
+</div>
+<div class="body">
+  <div ng-class="{error: errors.errors.email}">Email: <input type="email" ng-model="login_user.email" />
+    <div ng-show="errors.errors.email">
+      <div ng-repeat="field_error in errors.errors.email">{{field_error}}</div>
+    </div>
+  </div>
+
+  <div ng-class="{error: errors.errors.password}">Password: <input type="password" ng-model="login_user.password" />
+    <div ng-show="errors.errors.password">
+      <div ng-repeat="field_error in errors.errors.password">{{field_error}}</div>
+    </div>
+  </div>
+
+  <button ng-click="login()" class="btn btn-primary" >Login</button>
+  <button ng-click="logout()" class="btn btn-primary" >Logout</button>
+  <button ng-click="confirm()" class="btn btn-primary" >Confirm</button>
+  <button ng-click="unlock()" class="btn btn-primary" >Unlock</button>
+  <button ng_click="forgot_password()" class="btn btn-primary" >Forgot Password</button>
+</div>
