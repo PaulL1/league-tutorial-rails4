@@ -4,7 +4,9 @@
 angular.module( 'league.club', [
   'ui.state',
   'ngResource',
-  'ngGrid'
+  'ui.grid',
+  'ui.grid.resizeColumns',
+  'ui.grid.edit'
 ])
 
 /**
@@ -38,6 +40,7 @@ angular.module( 'league.club', [
  * And of course we define a controller for our route.
  */
 .controller( 'ClubsCtrl', function ClubsController( $scope, ClubRes, $state ) {
+  $scope.$scope = $scope;
   $scope.clubs = ClubRes.query();
   $scope.gridOptions = {
     data: 'clubs',
@@ -45,13 +48,24 @@ angular.module( 'league.club', [
       {field: 'id', displayName: 'Id'},
       {field: 'name', displayName: 'Club Name'},
       {field: 'contact_officer', displayName: 'Contact Officer'},
-      {displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="editClub(row.entity)" >Edit</button> '},
-      {displayName: 'Delete', cellTemplate: '<button id="deleteBtn" type="button" class="btn-small" ng-click="deleteClub(row.entity)" >Delete</button> '},
-      {displayName: 'Show Teams', cellTemplate: '<button id="showBtn" type="button" class="btn-small" ng-click="showTeams(row.entity)" >Show Teams</button> '}
+      {name: 'edit', displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="getExternalScopes().editClub(row.entity)" >Edit</button> '},
+      {name: 'delete', displayName: 'Delete', cellTemplate: '<button id="deleteBtn" type="button" class="btn-small" ng-click="getExternalScopes().deleteClub(row.entity)" >Delete</button> '},
+      {name: 'show_teams', displayName: 'Show Teams', cellTemplate: '<button id="showBtn" type="button" class="btn-small" ng-click="getExternalScopes().showTeams(row.entity)" >Show Teams</button> '}
     ],
-    multiSelect: false
+    multiSelect: false,
+    enableFiltering: true
   };
 
+  $scope.gridOptions.onRegisterApi = function( gridApi ) {
+    gridApi.edit.on.afterCellEdit( $scope, function( rowEntity, colDef ) {
+      rowEntity.$update( function( response ) {
+        $scope.error = null;
+      }, function( error ) {
+        $scope.error = error;
+      });
+    });
+  };
+  
   $scope.editClub = function(club) {
     $state.transitionTo('club', { clubId: club.id });
   };

@@ -69,11 +69,15 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-resource/angular-resource.js',
       'vendor/jquery/jquery.js',
-      'vendor/angular-grid/build/ng-grid.js'
+      'vendor/ui-grid/ui-grid-unstable.js'
     ],
     css: [
     ],
     assets: [
+      'vendor/ui-grid/ui-grid.eot',
+      'vendor/ui-grid/ui-grid.svg',
+      'vendor/ui-grid/ui-grid.ttf',
+      'vendor/ui-grid/ui-grid.woff'
     ]
   },
 };

@@ -5,7 +5,9 @@ angular.module( 'league.team', [
   'ui.state',
   'league.club',
   'ngResource',
-  'ngGrid'
+  'ui.grid',
+  'ui.grid.resizeColumns',
+  'ui.grid.edit'
 ])
 
 /**
@@ -39,20 +41,10 @@ angular.module( 'league.team', [
  * And of course we define a controller for our route.
  */
 .controller( 'TeamsCtrl', function TeamsController( $scope, TeamRes, $state, $stateParams ) {
+  $scope.$scope = $scope;
   $scope.teams = TeamRes.query();
 
   $scope.clubId = $stateParams.clubId;
-
-  if($scope.clubId) {
-    $scope.filterOptions = {
-      filterText: 'club_id:' + $scope.clubId
-    };
-  }
-  else {
-    $scope.filterOptions = {
-      filterText: ''
-    };
-  }
 
   $scope.gridOptions = {
     data: 'teams',
@@ -63,12 +55,26 @@ angular.module( 'league.team', [
       {field: 'name', displayName: 'Team Name'},
       {field: 'captain', displayName: 'Captain'},
       {field: 'date_created', displayName: 'Date Created', cellFilter: "date:mediumDate"},
-      {displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="editTeam(row.entity)" >Edit</button> '},
-      {displayName: 'Delete', cellTemplate: '<button id="deleteBtn" type="button" class="btn-small" ng-click="deleteTeam(row.entity)" >Delete</button> '}
+      {name: 'edit', displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="getExternalScopes().editTeam(row.entity)" >Edit</button> '},
+      {name: 'delete', displayName: 'Delete', cellTemplate: '<button id="deleteBtn" type="button" class="btn-small" ng-click="getExternalScopes().deleteTeam(row.entity)" >Delete</button> '}
     ],
     multiSelect: false,
-    filterOptions: $scope.filterOptions,
+    enableFiltering: true,
     showColumnMenu: true    
+  };
+
+  if($scope.clubId) {
+    $scope.gridOptions.columnDefs[1].filter = { term: $scope.clubId };
+  }
+
+  $scope.gridOptions.onRegisterApi = function( gridApi ) {
+    gridApi.edit.on.afterCellEdit( $scope, function( rowEntity, colDef ) {
+      rowEntity.$update( function( response ) {
+        $scope.error = null;
+      }, function( error ) {
+        $scope.error = error;
+      });
+    });
   };
 
   $scope.editTeam = function(team) {
